@@ -10,7 +10,7 @@ interface PaginationProps {
 }
 
 type SortCategory = 'none' | 'name' | 'category' | 'price'
-const FilterPanel = ({
+export const FilterPanel = ({
   setRequestURL,
   currentPage,
   sortAsc,
@@ -85,5 +85,3 @@ const FilterPanel = ({
     </div>
   )
 }
-
-export default FilterPanel

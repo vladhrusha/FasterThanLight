@@ -3,7 +3,7 @@ import './Card.scss'
 import { CryptoKittie } from 'models/CryptoKittie'
 import loadingFail from 'images/loadingFail.png'
 
-const Card = (kitty: CryptoKittie) => {
+export const Card = (kitty: CryptoKittie) => {
   const [kittyImageURL, setKittyImageURL] = useState<string>(kitty.image_url)
   const altImage = () => {
     setKittyImageURL(loadingFail)
@@ -26,5 +26,3 @@ const Card = (kitty: CryptoKittie) => {
     </div>
   )
 }
-
-export default Card

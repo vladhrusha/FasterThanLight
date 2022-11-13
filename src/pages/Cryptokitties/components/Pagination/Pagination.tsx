@@ -9,7 +9,7 @@ interface PaginationProps {
   setRequestURL: (url: string) => void
 }
 
-const Pagination = ({
+export const Pagination = ({
   paginationInfo,
   setCurrentPage,
   requestURL,
@@ -80,5 +80,3 @@ const Pagination = ({
     </nav>
   )
 }
-
-export default Pagination
