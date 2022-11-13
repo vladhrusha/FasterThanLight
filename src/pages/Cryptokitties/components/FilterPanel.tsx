@@ -64,7 +64,9 @@ const FilterPanel = ({
     setSelectedSortCategory('price')
   }
   const setSortType = () => {
-    setSortAsc(!sortAsc)
+    if (selectedSortCategory != 'none') {
+      setSortAsc(!sortAsc)
+    }
   }
   return (
     <div className="filterPanel">

@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { Cryptokitties } from 'components/pages/Cryptokitties'
+import { Cryptokitties } from 'pages/Cryptokitties'
 
 function App() {
   return (
