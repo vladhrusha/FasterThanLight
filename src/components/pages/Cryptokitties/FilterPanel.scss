@@ -1,0 +1,12 @@
+.filterPanel {
+  width: 240px;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .filterPanel__button {
+    border: 0;
+    border-radius: 3px;
+    background-color: #dfdff9;
+  }
+}

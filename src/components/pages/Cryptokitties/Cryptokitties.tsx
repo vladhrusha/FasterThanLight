@@ -2,21 +2,25 @@ import React, { useEffect, useState } from 'react'
 import Card from './Card'
 import { FTL_API_MAP } from 'API/FTL_API'
 import { CryptoKittie } from 'models/CryptoKittie'
+import FilterPanel from './FilterPanel'
 import Pagination from './Pagination'
+import { LoadingSpinner } from 'components/global/LoadingSpinner'
 import { PaginationInfo } from 'models/PaginationInfo'
-// import data from 'localData/crypto_kitties.json'
 import './Cryptokitties.scss'
 import { setGridSize, handleWindowSizeChange } from 'utils/setGridSize'
 import { DeviceCategory } from 'models/global'
 
 export const Cryptokitties = () => {
-  //   const [kitties, setKitties] = useState<CryptoKittie[]>(data.cats)
   const [kitties, setKitties] = useState<CryptoKittie[]>()
   const [errorMessage, setErrorMessage] = useState<string | undefined>()
 
   const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>()
   const [deviceCategory, setDeviceCategory] = useState<string>()
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [requestURL, setRequestURL] = useState<string>(
+    `${FTL_API_MAP.cryptokitties}?page=${currentPage}&per_page=20`,
+  )
+  const [sortAsc, setSortAsc] = useState<boolean>(true)
 
   useEffect(() => {
     setDeviceCategory(setGridSize)
@@ -27,13 +31,9 @@ export const Cryptokitties = () => {
     }
 
     const fetchData = async () => {
-      console.log('fired')
-      const requestURL = `${FTL_API_MAP.cryptokitties}?page=${currentPage}&per_page=20`
-
       try {
         const res = await fetch(requestURL)
         const data = await res.json()
-        console.log(data)
         if (!res.ok || !data) {
           throw res.status
         }
@@ -54,21 +54,30 @@ export const Cryptokitties = () => {
     }
 
     fetchData()
-  }, [currentPage])
-
-  //IMPORTANT IF NUMBER OF ITEMS DIV NUMBER OF ROWS !==0 LAST ROW WRONG DISPLAY
+  }, [currentPage, requestURL, sortAsc])
 
   if (errorMessage != undefined) {
-    return <h1>{errorMessage}</h1>
+    return (
+      <div className="cryptoKitties">
+        <h1>{errorMessage}</h1>
+      </div>
+    )
   }
   if (!kitties || !paginationInfo) {
-    return <h1>Loading</h1>
+    return (
+      <div className="cryptoKitties">
+        <LoadingSpinner></LoadingSpinner>
+      </div>
+    )
   }
-  //   console.log(paginationInfo)
-  console.log(currentPage)
-
   return (
     <div className="cryptoKitties">
+      <FilterPanel
+        setRequestURL={setRequestURL}
+        currentPage={currentPage}
+        setSortAsc={setSortAsc}
+        sortAsc={sortAsc}
+      ></FilterPanel>
       <div className={`cryptoKitties__grid ${deviceCategory}`}>
         {kitties?.map((kitty) => (
           <Card key={kitty.id} {...kitty}></Card>
@@ -76,9 +85,10 @@ export const Cryptokitties = () => {
       </div>
       <div>
         <Pagination
-          nPages={5}
           paginationInfo={paginationInfo}
           setCurrentPage={setCurrentPage}
+          setRequestURL={setRequestURL}
+          requestURL={requestURL}
         ></Pagination>
       </div>
     </div>
