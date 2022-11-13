@@ -1,0 +1,10 @@
+.pageList {
+  list-style: none;
+  display: flex;
+  min-width: 420px;
+  justify-content: space-evenly;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
